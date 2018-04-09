@@ -1,13 +1,15 @@
 //Business Logic
-var toppings = [Pepperoni, Sausage, Meatball, Ham, Bacon, Barbeque chicken, Garlic chicken, Onions, Bellpeppers, Olives, Pineapple, Anchovies, Artichoke, Tomatoes, Spring onions];
-var toppingPrice = 1;
-function Pizza (toppings, price){
+/*var toppings = [Pepperoni, Sausage, Meatball, Ham, Bacon, Barbeque chicken, Garlic chicken, Onions, Bellpeppers, Olives, Pineapple, Anchovies, Artichoke, Tomatoes, Spring onions];
+*/
+
+function Pizza (toppings){
   this.toppings = toppings;
-  this.price = price;
 }
 
-Pizza.prototype.calculate = function (){
-  return (8 + (this.toppings.length *1));
+var pizzaBase = 8;
+var toppingPrice = 1;
+Pizza.prototype.calculatePrice = function (pizzaOrder){
+ return ((this.toppings.length +1) +pizzaBase);
 }
 
 
@@ -15,11 +17,16 @@ Pizza.prototype.calculate = function (){
 $(document).ready(function(){
   $("form#pizza").submit(function(event){
     event.preventDefault();
+
     $("#results").show();
     $("input:checkbox[name=topping]:checked").each(function(){
-      var toppings = $(this).val();
+      var chosentopping = [];
+      chosenTopping.push($(this).val());
       $('#topping').append(toppings + "<br>");
     });
     $('#pizza').hide();
+    pizzaOrder = new Pizza(chosenTopping);
+    var total = pizzaOrder.calculatePrice();
+    return total;
   });
 });
