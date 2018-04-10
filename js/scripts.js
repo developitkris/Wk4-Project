@@ -6,10 +6,10 @@ function Pizza (toppings){
   this.toppings = toppings;
 }
 
-var pizzaBase = 8;
-var toppingPrice = 1;
-Pizza.prototype.calculatePrice = function (pizzaOrder){
- return ((this.toppings.length +1) +pizzaBase);
+var pizzaBase = 5;
+var toppingPrice = 2;
+Pizza.prototype.calculatePrice = function (){
+ return ((this.toppings.length *2) +pizzaBase);
 }
 
 
@@ -20,13 +20,20 @@ $(document).ready(function(){
 
     $("#results").show();
     $("input:checkbox[name=topping]:checked").each(function(){
-      var chosentopping = [];
+      var chosenTopping = [];
       chosenTopping.push($(this).val());
-      $('#topping').append(toppings + "<br>");
+      $("span#results p#confirmation").append(chosenTopping + " ");
     });
-    $('#pizza').hide();
-    pizzaOrder = new Pizza(chosenTopping);
-    var total = pizzaOrder.calculatePrice();
-    return total;
+
+    var newPizza = new Pizza(chosenTopping);
+    var orderPrice = newPizza.calculatePrice();
+    $("span#results p#receipt").append("$" + orderPrice + ".00");
+
+    var reset = $("form#pizza").submit(function(event){
+      event.preventDefault();
+      if (reset == true){
+        location.reload();
+      }
+    });
   });
 });
